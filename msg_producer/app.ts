@@ -1,7 +1,11 @@
+import dotenv from 'dotenv';
+dotenv.config();
 import amqp from 'amqplib/callback_api.js';
 import { parse } from 'csv-parse';
 import fs from 'fs';
 import { normalize } from 'path';
+
+const INTERVAL_DELAY_MS = 3000;
 
 let csvConsumptions: number[] = [];
 let currentConnection: any = null;
@@ -75,7 +79,7 @@ const handleDataSend = async (consumptions: any[]) => {
                     Buffer.from(JSON.stringify(responseObjet))
                 );
                 console.log(' [x] Sent %s', responseObjet);
-                await sleep(10000);
+                await sleep(INTERVAL_DELAY_MS);
             }
         });
     });
